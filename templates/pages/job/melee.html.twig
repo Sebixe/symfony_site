@@ -1,0 +1,58 @@
+{% extends "pages/jobs.html.twig" %}
+{% block title %}Les Dps de mêlée{% endblock title %}
+
+{% block jobs %}
+    <div class="disapear col-md-10 ">
+        <div class="single-package-item jobs-height white-package jobs-items">
+
+            <div class="col-md-2">
+                <div class="jobs-package">
+                    Moine
+                    <a href="{{ path('job', {id:9})}}">
+                        <img src="{{ asset('assets/images/jobs/monk.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-2">
+                <div class="jobs-package">
+                    Ch.Drag.
+                    <a href="{{ path('job', {id:10})}}">
+                        <img src="{{ asset('assets/images/jobs/dragoon.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-2">
+                <div class="jobs-package">
+                    Ninja
+                    <a href="{{ path('job', {id:11})}}">
+                        <img src="{{ asset('assets/images/jobs/ninja.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-2">
+                <div class="jobs-package">
+                    Samour.
+                    <a href="{{ path('job', {id:12})}}">
+                        <img src="{{ asset('assets/images/jobs/samurai.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+            <div class="col-md-2">
+                <div class="jobs-package">
+                    Fauch.
+                    <a href="{{ path('job', {id:13})}}">
+                        <img src="{{ asset('assets/images/jobs/reaper.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+        </div>
+    </div>
+{% endblock jobs %}

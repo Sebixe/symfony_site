@@ -1,0 +1,48 @@
+{% extends "pages/jobs.html.twig" %}
+{% block title %}Les tanks{% endblock title %}
+
+{% block jobs %}
+    <div class="disapear col-md-10 ">
+        <div class="single-package-item jobs-height white-package jobs-items">
+
+            <div class="col-md-3">
+                <div class="jobs-package">
+                    Paladin
+                    <a href="{{ path('job', {id:1})}}">
+                        <img src="{{ asset('assets/images/jobs/paladin.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-3">
+                <div class="jobs-package">
+                    Guerrier
+                    <a href="{{ path('job', {id:2})}}">
+                        <img src="{{ asset('assets/images/jobs/warrior.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-3">
+                <div class="jobs-package">
+                    Chev.Noir
+                    <a href="{{ path('job', {id:3})}}">
+                        <img src="{{ asset('assets/images/jobs/darkknight.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-3">
+                <div class="jobs-package">
+                    Pistosab.
+                    <a href="{{ path('job', {id:4})}}">
+                        <img src="{{ asset('assets/images/jobs/gunbreaker.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+        </div>
+    </div>
+{% endblock jobs %}

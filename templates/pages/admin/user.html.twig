@@ -1,0 +1,44 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Voir les utilisateurs{% endblock title %}
+{% block content %}
+
+        <div class="container">
+            <div class="about-us-content">
+                <div class="gallery-jobs">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6">
+                            <div class="single-package-item" >
+
+                                 <img src="{{ asset('assets/images/packages/user.jpg') }}" alt="package-place">
+                                <div class="single-package-item-txt">
+                                    <h3>Gérer les utilisateurs</h3>
+                                    <div class="row">
+                                        </br>
+
+                                        <table class="table">
+                                            <thead><tr><th>Id</th><th>Pseudo</th><th>Niveau</th><th>Serveur</th><th>Job</th></tr></thead>
+                                            <tbody>
+                                                {% for user in users %}
+                                                    <tr>
+                                                        <td>{{ user.id }}</td>
+                                                        <td>{{ user.username }}</td>
+                                                        <td>{{ user.level }}</td>
+                                                        <td>{{ user.server }}</td>
+                                                        <td><img class="job-icon" src="{{ asset(user.job) }}"></td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+

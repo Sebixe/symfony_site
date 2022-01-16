@@ -1,0 +1,51 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Voir les images{% endblock title %}
+{% block content %}
+
+        <div class="container">
+            <div class="about-us-content">
+                <div class="gallery-jobs">
+                    <div class="row">
+                     <div class="col-md-12 col-sm-6">
+                         <div class="single-package-item">
+                    <img src="{{ asset('assets/images/packages/register.jpg') }}" alt="package-place">
+                    <div class="single-package-item-txt">
+                        <h3>Gérer les images</h3>
+                        <div class="row">
+                            </br>
+
+                            <table class="table">
+                                <thead><tr><th>Id</th><th>Nom</th><th>Niveau</th><th>Image</th><th>Supprimer</th></tr></thead>
+                                <tbody>
+                                <div class="text-center">
+                                    <a href="{{ path('createimage')}}">
+                                        <button type="button" class="btn btn-info mb-2" > Ajouter une image </button>
+                                    </a>
+                                </div>
+                                {% for image in images %}
+                                <tr>
+                                    <td>{{ image.id }}</td>
+                                    <td>{{ image.title }}</td>
+                                    <td>{{ image.level }}</td>
+                                    <td><img src="{{asset('uploads/'~image.location) }}" style="width:96px;height:54px"/></td>
+                                    <td> <a href="{{ path('deleteimage', {id: image.id})}}"><button class="btn btn-danger"><i class="fa fa-times"></i></button></a></td>
+
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+

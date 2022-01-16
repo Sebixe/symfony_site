@@ -1,0 +1,39 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block title %}Ajouter du contenu{% endblock title %}
+{% block content %}
+
+        <div class="container">
+            <div class="about-us-content">
+                <div class="gallery-jobs">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6">
+                            <div class="single-package-item">
+                <img src="{{ asset('assets/images/packages/view.jpg') }}" alt="package-place">
+                <div class="single-package-item-txt">
+                    <h3>Ajouter un nouveau contenu</h3>
+
+                    <div class="row">
+                        </br>
+                        {{ form_start(contentForm) }}
+                        {{ form_row(contentForm.title) }}
+                        {{ form_row(contentForm.adresse) }}
+                        {{ form_row(contentForm.position) }}
+                        {{ form_row(contentForm.extension) }}
+                        {{ form_row(contentForm.type) }}
+                        {{ form_row(contentForm.level) }}
+                    </div>
+
+                    {{ form_rest(contentForm) }}
+
+                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+{% endblock content %}
+

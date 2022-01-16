@@ -1,0 +1,585 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}La grande compagnie d'Eorzea{% endblock title %}
+{% block content %}
+
+        <div class="container">
+
+            {% if is_granted('ROLE_USER') -%}
+                <div class="col-md-12 col-sm-6">
+                        <div class="col-md-12">
+                            <div class="single-travel-boxes">
+                                <div id="desc-tabs" class="desc-tabs">
+
+                                    <ul class="nav nav-tabs" role="tablist">
+
+                                        <li role="presentation" class="active">
+                                            <a href="#hotels" aria-controls="hotels" role="tab" data-toggle="tab">
+                                                <i class="fa fa-gamepad"></i>
+                                                Donjons & Défis
+                                            </a>
+                                        </li>
+
+                                        <li role="presentation">
+                                            <a href="#flights" aria-controls="flights" role="tab" data-toggle="tab">
+                                                <i class="fa fa-question-circle"></i>
+                                                Que faire ?
+                                            </a>
+                                        </li>
+
+                                        <li role="presentation">
+                                            <a href="#tours" aria-controls="tours" role="tab" data-toggle="tab">
+                                                <i class="fa fa-user"></i>
+                                                Profil
+                                            </a>
+                                        </li>
+
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in" id="tours">
+                                            <div class="tab-para">
+
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                                        <div class="text-center single-tab-select-box">
+
+                                                            <img src=" {{user.job}}" width="92" height="92";>
+                                                            <h4><br/>{{ user.username }}</h4>
+
+                                                        </div><!--/.single-tab-select-box-->
+                                                    </div><!--/.col-->
+                                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                                        <div class="text-center single-tab-select-box">
+
+                                                            <img class="image-display" src="{{ asset('assets/images/offer/return.png') }}"/>
+                                                            <h2><br/>Serveur</h2>
+                                                            <h4>{{ user.server }}</h4>
+
+                                                        </div><!--/.single-tab-select-box-->
+
+                                                    </div><!--/.col-->
+                                                    {{ form_start(LevelForm) }}
+                                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                                        <div class="text-center single-tab-select-box">
+                                                         <div class="lvl-up"> {{ form_row(LevelForm.submit) }}</div>
+                                                            <img class="image-display" src="{{ asset('assets/images/offer/execute_limit_break.png') }}"/>
+                                                            <h2><br/>Niveau</h2>
+
+                                                            <h4>
+
+                                                                {{ form_row(LevelForm.level) }}
+
+                                                            {{ form_end(LevelForm) }}
+                                                            </h4>
+
+                                                        </div><!--/.single-tab-select-box-->
+
+                                                    </div><!--/.col-->
+                                                    <div class="col-lg-5 col-md-5 col-sm-12">
+                                                        <div class="text-center single-tab-select-box">
+                                                            <form action="{{ path('refresh') }}" method="POST">
+                                                                <p class="float-left text-profile">Vider les contenus effectués</p>
+                                                                <input type="submit" class="float-left button about-view packages-btn btn-danger center-block"  value="Vider"></input>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                                        <div class="text-center single-tab-select-box">
+                                                            <p class="float-left text-profile">Changer le fond d'écran</p>
+                                                <form action="{{ path('changethewall') }}" method="post">
+                                                    <select name="wallpaper" class="wallpaper-select select" onchange="this.form.submit()">
+                                                        <option value=""> -- Fonds d'écrans disponibles --</option>
+        {% for images in images %}{% if user.level>images.level or user.level==images.level %}     <option value="{{ images.location }}">{{ images.title }}</option> {% endif %}{% endfor %}
+                                                    </select>
+                                                </form>
+                                                        </div>
+                                                    </div>
+                                                </div><!--/.row-->
+                                            </div><!--/.tab-para-->
+
+                                        </div><!--/.tabpannel-->
+
+                                        <div role="tabpanel" class="tab-pane active fade in" id="hotels">
+                                            <div class="tab-para">
+                                                <form action="{{ path('save') }}" method="POST">
+                                                <div class="row">
+                                                    <h3> Contenus
+                                                        <input type="submit" class="float-right button about-view packages-btn center-block"  value="Enregistrer"></input><p class="text-content float-right">Cocher la case d'un contenu une fois effectué puis cliquez sur ce bouton :</p>
+                                                    </h3>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                                            <h4><br/>Donjons
+                                                            </h4>
+                                                            <p><br/></p>
+                                                            {% for dungeons in dungeons %}
+                                                            <label class="list-group-item">
+                                                                    {{ dungeons.level }}.
+                                                                        {{ dungeons.title }}
+                                                                    <input type="checkbox" value="1" class="margin-left float-right" name="{{ dungeons.id }}">
+                                                                <a href="{{ dungeons.position }}"  class="disapear float-right eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                                    Quête d'accès
+                                                                </a>
+
+                                                                </label>
+                                                            {% else %}
+                                                                <h4 class="color-grey">Aucun nouveau donjon disponible</h4>
+                                                            {% endfor %}
+                                                        </div><!--/.col-->
+                                                        <div class="col-lg-6 col-md-6 col-sm-4">
+                                                            <h4><br/>Défis</h4>
+                                                            <p><br/></p>
+                                                            {% for trials in trials %}
+                                                                <label class="list-group-item">
+                                                                    {{ trials.level }}.
+                                                                    {{ trials.title }}
+
+                                                                        <input type="checkbox" value="1" class="margin-left float-right" name="{{ trials.id }}">
+
+                                                                    <a href="{{ trials.position }}"  class="disapear float-right eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                                        Quête d'accès
+                                                                    </a>
+                                                                </label>
+                                                            {% else %}
+                                                                <h4 class="color-grey">Aucun nouveau défis disponible</h4>
+                                                            {% endfor %}
+                                                            </div><!--/.col-->
+                                                        <div class="col-lg-6 col-md-6 col-sm-4">
+                                                            <h4><br/>Raids</h4>
+                                                            <p><br/></p>
+                                                            {% for raids in raids %}
+                                                                <label class="list-group-item">
+                                                                    {{ raids.level }}.
+                                                                    {{ raids.title }}
+
+                                                                        <input type="checkbox" value="1" class="margin-left float-right" name="{{ raids.id }}">
+
+                                                                    <a href="{{ raids.position }}"  class="disapear float-right eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                                        Quête d'accès
+                                                                    </a>
+                                                                </label>
+                                                            {% else %}
+                                                                <h4 class="color-grey">Aucun nouveau raid disponible</h4>
+                                                            {% endfor %} </div><!--/.col-->
+                                                        <div class="col-lg-6 col-md-6 col-sm-4">
+                                                            <h4><br/>Autres</h4>
+                                                            <p><br/></p>
+                                                            {% for others in others %}
+                                                                <label class="list-group-item">
+                                                                    {{ others.level }}.
+                                                                    {{ others.title }}
+
+                                                                        <input type="checkbox" value="1" class="margin-left float-right" name="{{ others.id }}">
+
+                                                                    <a href="{{ others.position }}"  class="disapear float-right eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                                        Quête d'accès
+                                                                    </a>
+                                                                </label>
+                                                            {% else %}
+                                                                <h4 class="color-grey">Pas de quêtes annexes disponible</h4>
+                                                            {% endfor %}
+                                                        </div><!--/.col-->
+                                                    </div><!--/.row-->
+                                                </div><!--/.row-->
+                                                </form>
+                                            </div><!--/.tab-para-->
+
+                                        </div><!--/.tabpannel-->
+
+                                        <div role="tabpanel" class="tab-pane fade in" id="flights">
+                                            <div class="tab-para">
+                                                <div class="row">
+                                                    <form method="POST" action="session">
+                                                    <h3> Activités  <input type="submit" class="float-right button about-view packages-btn center-block"  value="Valider"></input><p class="text-content float-right"> Cocher la case des activités effectués puis cliquez sur ce bouton :</p>
+                                                    </h3>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                                        <h4><br/>Hebdomadaire</h4>
+                                                        <p><br/></p>
+
+                                                        <label class="list-group-item"><span><input name="weeklies[1]" value="1" class="form-check-input" type="checkbox" {% if quest.0.weeklies.1 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.1 is defined %}checklist-checked{% endif %}">Quêtes répétables hebdomadaire</span></span></label>
+    {% if user.level>50 or user.level==50 %}            <label class="list-group-item"><span><input name="weeklies[2]" value="2" class="form-check-input" type="checkbox" {% if quest.0.weeklies.2 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.2 is defined %}checklist-checked{% endif %}">Contrat de chasse hebdomadaire</span></span></label> {% endif %}
+    {% if user.level>47 or user.level==47 %}            <label class="list-group-item"><span><input name="weeklies[3]" value="3" class="form-check-input" type="checkbox" {% if quest.0.weeklies.3 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.3 is defined %}checklist-checked{% endif %}">Mission avancée d'escouade</span></span></label> {% endif %}
+    {% if user.level>15 or user.level==15 %}            <label class="list-group-item"><span><input name="weeklies[4]" value="4" class="form-check-input" type="checkbox" {% if quest.0.weeklies.4 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.4 is defined %}checklist-checked{% endif %}">Carnet d'objectif</span></span></label> {% endif %}
+    {% if user.level>60 or user.level==60 %}            <label class="list-group-item"><span><input name="weeklies[5]" value="5" class="form-check-input" type="checkbox" {% if quest.0.weeklies.5 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.5 is defined %}checklist-checked{% endif %}">Commandes spéciales</span></span></label> {% endif %}
+    {% if user.level>60 or user.level==60 %}            <label class="list-group-item"><span><input name="weeklies[6]" value="6" class="form-check-input" type="checkbox" {% if quest.0.weeklies.6 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.6 is defined %}checklist-checked{% endif %}">Carnet de Khloe</span></span></label> {% endif %}
+    {% if user.level>90 or user.level==90 %}            <label class="list-group-item"><span><input name="weeklies[7]" value="7" class="form-check-input" type="checkbox" {% if quest.0.weeklies.7 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.7 is defined %}checklist-checked{% endif %}">Coffres de Raids : Asphodelos</span></span></label> {% endif %}
+    {% if user.level>70 or user.level==70 %}            <label class="list-group-item"><span><input name="weeklies[8]" value="8" class="form-check-input" type="checkbox" {% if quest.0.weeklies.8 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.8 is defined %}checklist-checked{% endif %}">Corbeillle de don : Quartiers enclavés de Doma </span></span></label> {% endif %}
+    {% if user.level>50 or user.level==50 %}            <label class="list-group-item"><span><input name="weeklies[9]" value="9" class="form-check-input" type="checkbox" {% if quest.0.weeklies.9 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.weeklies.9 is defined %}checklist-checked{% endif %}">Carnaval masqué</span></span></label> {% endif %}
+    {% if user.level>50 or user.level==50 %}            <label class="list-group-item"><span><input name="weeklies[10]" value="10" class="form-check-input" type="checkbox" {% if quest.0.weeklies.10 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.weeklies.10 is defined %}checklist-checked{% endif %}">Journal de Mage bleu</span></span></label> {% endif %}
+    {% if user.level>15 or user.level==15 %}            <label class="list-group-item"><span><input name="weeklies[11]" value="11" class="form-check-input" type="checkbox" {% if quest.0.weeklies.11 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.weeklies.11 is defined %}checklist-checked{% endif %}">Tournoi de Triple Triad </span></span></label> {% endif %}
+    {% if user.level>15 or user.level==15 %}            <label class="list-group-item"><span><input name="weeklies[12]" value="12" class="form-check-input" type="checkbox" {% if quest.0.weeklies.12 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.weeklies.12 is defined %}checklist-checked{% endif %}">Revue de mode</span></span></label> {% endif %}
+    {% if user.level>15 or user.level==15 %}            <label class="list-group-item"><span><input name="weeklies[13]" value="13" class="form-check-input" type="checkbox" {% if quest.0.weeklies.13 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.weeklies.13 is defined %}checklist-checked{% endif %}">Méga Catpot</span></span></label> {% endif %}
+
+                                                    </div><!--/.col-->
+                                                    <div class="col-lg-6 col-md-6 col-sm-4">
+                                                        <h4><br/>Journalière</h4>
+                                                        <p><br/></p>
+
+                                                        <label class="list-group-item"><span><input name="daylies[1]" value="1" class="form-check-input" type="checkbox" {% if quest.0.daylies.1 is defined %}checked{% endif %}> &nbsp; <span class="{% if quest.0.daylies.1 is defined %}checklist-checked{% endif %}">Quêtes répétables journalière</span></span></label>
+    {% if user.level>50 or user.level==50 %}            <label class="list-group-item"><span><input name="daylies[2]" value="2" class="form-check-input" type="checkbox" {% if quest.0.daylies.2 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.2 is defined %}checklist-checked{% endif %}">Contrats de chasse journaliers</span></span></label> {% endif %}
+    {% if user.level>47 or user.level==47 %}            <label class="list-group-item"><span><input name="daylies[3]" value="3" class="form-check-input" type="checkbox" {% if quest.0.daylies.3 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.3 is defined %}checklist-checked{% endif %}">Mission normale d'escouade</span></span></label> {% endif %}
+    {% if user.level>20 or user.level==20 %}            <label class="list-group-item"><span><input name="daylies[4]" value="4" class="form-check-input" type="checkbox" {% if quest.0.daylies.4 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.4 is defined %}checklist-checked{% endif %}">Mission de ravitaillement de grande compagnie</span></span></label> {% endif %}
+                                                        <label class="list-group-item"><span><input name="daylies[5]" value="5" class="form-check-input" type="checkbox" {% if quest.0.daylies.5 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.5 is defined %}checklist-checked{% endif %}">Expédition de compagnie libre</span></span></label>
+    {% if user.level>17 or user.level==17 %}            <label class="list-group-item"><span><input name="daylies[6]" value="6" class="form-check-input" type="checkbox" {% if quest.0.daylies.6 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.6 is defined %}checklist-checked{% endif %}">Tâches de servants</span></span></label> {% endif %}
+                                                        <label class="list-group-item"><span><input name="daylies[7]" value="7" class="form-check-input" type="checkbox" {% if quest.0.daylies.7 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.7 is defined %}checklist-checked{% endif %}">Jardinage</span></span></label>
+                                                        <label class="list-group-item"><span><input name="daylies[8]" value="8" class="form-check-input" type="checkbox" {% if quest.0.daylies.8 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.8 is defined %}checklist-checked{% endif %}">Quêtes de tribus barbares</span></span></label>
+    {% if user.level>36 or user.level==36 %}            <label class="list-group-item"><span><input name="daylies[9]" value="9" class="form-check-input" type="checkbox" {% if quest.0.daylies.9 is defined %}checked{% endif %}> &nbsp;&nbsp;<span class="{% if quest.0.daylies.9 is defined %}checklist-checked{% endif %}">Carte au trésor journalière</span></span></label> {% endif %}
+                                                        <label class="list-group-item"><span><input name="daylies[10]" value="10" class="form-check-input" type="checkbox" {% if quest.0.daylies.10 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.daylies.10 is defined %}checklist-checked{% endif %}">Mandats</span></span></label>
+    {% if user.level>16 or user.level==16 %}            <label class="list-group-item"><span><input name="daylies[11]" value="11" class="form-check-input" type="checkbox" {% if quest.0.daylies.11 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.daylies.11 is defined %}checklist-checked{% endif %}">Missions aléatoire</span></span></label> {% endif %}
+    {% if user.level>15 or user.level==15 %}            <label class="list-group-item"><span><input name="daylies[12]" value="12" class="form-check-input" type="checkbox" {% if quest.0.daylies.12 is defined %}checked{% endif %}> &nbsp;<span class="{% if quest.0.daylies.12 is defined %}checklist-checked{% endif %}">Mini Catpot</span></span></label> {% endif %}
+                                                        </form>
+
+                                                    </div><!--/.col-->
+                                                </div><!--/.row-->
+                                            </div>
+                                        </div><!--/.tabpannel-->
+                                    </div><!--/.tab content-->
+                                </div><!--/.desc-tabs-->
+                            </div><!--/.single-travel-box-->
+                        </div><!--/.col-->
+                </div>
+                </div>
+                </section>
+            {% else %}
+            <div class="col-md-12 col-sm-6">
+                <div class="single-package-item">
+                    <div class="single-package-item-txt">
+
+                        <h1 class=" packages-para text-center">   </br> Bienvenue habitant d'Eorzea </h1>
+                        <div class="packages-para">
+
+                            <p class="presentation">
+                                </br>
+                                Ce site est un outil très pratique pour tous les joueurs de Final Fantasy XIV ©.
+                                </br>
+                                Il sert de compas, dirigeant les aventuriers vers les objectifs qu'ils peuvent accomplir lors de leur découverte du jeu en fonction
+                                de leur niveau et de leur progression dans l'histoire.
+                                </br>
+                                </br>
+                                Tout le monde peut également consulter le guide des jobs jouables ainsi que la liste des diffèrents contenus proposés d'une extension à l'autre.
+                                </br>
+                                </br>
+                                Comment l'utiliser ?
+                                </br>
+                                C'est très simple, il suffit de créer un compte et de suivre les instructions !
+                            </p>
+                            <div class="inline-button top-margin">
+
+                            <div class="about-btn flex-btn">
+                                    <a href="{{ path('login')}}">
+                                        <button  class="about-view packages-btn center-block">
+                                        Se connecter
+                                        </button>
+                                    </a>
+                            </div><!--/.about-btn-->
+                            <div class="about-btn ">
+                                    <a href="{{ path('register')}}">
+                                        <button  class="about-view packages-btn center-block">
+                                            S'enregistrer
+                                        </button>
+                                    </a>
+                            </div><!--/.about-btn-->
+
+                            </div>
+                        </div>
+                        </div><!--/.packages-para-->
+
+                    </div><!--/.single-package-item-txt-->
+                </div><!--/.single-package-item-->
+
+            </div><!--/.col-->
+
+        </div><!--/.container-->
+    </section><!--/.about-us-->
+    <!--about-us end -->
+
+            {%- endif %}
+
+    <!--galley start-->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="gallery-details">
+                <div class="gallary-header text-center">
+                    <h2>
+                        Rôles
+                    </h2>
+
+                </div><!--/.gallery-header-->
+                <div class="gallery-box">
+                    <div class="gallery-content">
+                        <div class="filtr-container">
+                            <div class="row">
+
+                                <div class="col-md-1">
+                                </div><!-- /.col -->
+
+                                <div class="col-md-2">
+                                    <div class="filtr-item">
+                                        <a href="{{ path('job', {id:21})}}">
+                                        <img src="{{ asset('assets/images/gallery/tank.png') }}" alt="portfolio image"/>
+                                        <div class="item-title">
+                                            Tank
+                                        </a>
+                                    </div><!-- /.item-title -->
+                                    </div><!-- /.filtr-item -->
+                                </div><!-- /.col -->
+
+                                <div class="col-md-2">
+                                    <div class="filtr-item">
+                                        <a href="{{ path('job', {id:22})}}">
+                                        <img src="{{ asset('assets/images/gallery/heal.png') }}" alt="portfolio image"/>
+                                        <div class="item-title">
+                                                Soin
+                                        </a>
+                                    </div><!-- /.item-title -->
+                                    </div><!-- /.filtr-item -->
+                                </div><!-- /.col -->
+
+                                <div class="col-md-2">
+                                    <div class="filtr-item">
+                                        <a href="{{ path('job', {id:23})}}">
+                                        <img src="{{ asset('assets/images/gallery/melee.png') }}" alt="portfolio image"/>
+                                        <div class="item-title">
+                                                Melee
+                                        </a>
+                                    </div><!-- /.item-title -->
+                                    </div><!-- /.filtr-item -->
+                                </div><!-- /.col -->
+
+                                <div class="col-md-2">
+                                    <div class="filtr-item">
+                                        <a href="{{ path('job', {id:24})}}">
+                                        <img src="{{ asset('assets/images/gallery/ranged.png') }}"/>
+                                        <div class="item-title">
+                                                Dist.
+                                        </a>
+                                    </div><!-- /.item-title -->
+                                    </div><!-- /.filtr-item -->
+                                </div><!-- /.col -->
+
+                                <div class="col-md-2">
+                                    <div class="filtr-item">
+                                        <a href="{{ path('job', {id:25})}}">
+                                        <img src="{{ asset('assets/images/gallery/caster.png') }}" alt="portfolio image"/>
+                                        <div class="item-title">
+                                                Mage
+                                        </a>
+                                    </div><!-- /.item-title -->
+                                    </div><!-- /.filtr-item -->
+                                </div><!-- /.col -->
+
+                            </div><!-- /.row -->
+
+                        </div><!-- /.filtr-container-->
+                    </div><!-- /.gallery-content -->
+                </div><!--/.galley-box-->
+            </div><!--/.gallery-details-->
+        </div><!--/.container-->
+
+    </section><!--/.gallery-->
+    <!--gallery end-->
+
+
+    <!--packages start-->
+    <section id="pack" class="packages">
+        <div class="container">
+            <div class="gallary-header text-center">
+                <h2>
+                    Contenus
+                </h2>
+            </div><!--/.gallery-header-->
+            <div class="packages-content">
+                <div class="row">
+
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-package-item">
+                            <img src="{{ asset('assets/images/packages/a-realm-reborn.jpg') }}" alt="package-place">
+                            <div class="single-package-item-txt">
+                                <h3> A realm reborn </h3>
+                                <div class="packages-para">
+
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 20 Donjons
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 10 Défis
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 16 Raids
+											</span>
+                                    </p>
+
+                                </div><!--/.packages-para-->
+
+                                <div class="about-btn">
+                                    <a href="{{ path('arr')}}">
+                                        <button  class="about-view packages-btn">
+                                            Voir
+                                        </button>
+                                    </a>
+                                </div><!--/.about-btn-->
+                            </div><!--/.single-package-item-txt-->
+                        </div><!--/.single-package-item-->
+
+                    </div><!--/.col-->
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-package-item">
+                            <img src="{{ asset('assets/images/packages/heavensward.jpg') }}" alt="package-place">
+                            <div class="single-package-item-txt">
+                                <h3>Heavensward</h3>
+                                <div class="packages-para">
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 9 Donjons
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 6 Défis
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 15 Raids
+											</span>
+                                    </p>
+                                </div><!--/.packages-para-->
+
+                                <div class="about-btn">
+                                    <a href="{{ path('hw')}}">
+                                        <button  class="about-view packages-btn">
+                                            Voir
+                                        </button>
+                                    </a>
+                                </div><!--/.about-btn-->
+                            </div><!--/.single-package-item-txt-->
+                        </div><!--/.single-package-item-->
+
+                    </div><!--/.col-->
+
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-package-item">
+                            <img src="{{ asset('assets/images/packages/stormblood.png') }}" alt="package-place">
+                            <div class="single-package-item-txt">
+                                <h3>Stormblood</h3>
+                                <div class="packages-para">
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 7 Donjons
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 7 Défis
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 15 Raids
+											</span>
+                                    </p>
+                                </div><!--/.packages-para-->
+
+                                <div class="about-btn">
+                                    <a href="{{ path('sb')}}">
+                                        <button  class="about-view packages-btn">
+                                            Voir
+                                        </button>
+                                    </a>
+                                </div><!--/.about-btn-->
+                            </div><!--/.single-package-item-txt-->
+                        </div><!--/.single-package-item-->
+
+                    </div><!--/.col-->
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="single-package-item">
+                            <img src="{{ asset('assets/images/packages/shadowbringers.jpg') }}" alt="package-place">
+                            <div class="single-package-item-txt">
+                                <h3>Shadowbringer</h3>
+                                <div class="packages-para">
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 2 Donjons
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 3 Défis
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 15 Raids
+											</span>
+                                    </p>
+                                </div><!--/.packages-para-->
+
+                                <div class="about-btn">
+                                    <a href="{{ path('shb')}}">
+                                        <button  class="about-view packages-btn">
+                                            Voir
+                                        </button>
+                                    </a>
+                                </div><!--/.about-btn-->
+                            </div><!--/.single-package-item-txt-->
+                        </div><!--/.single-package-item-->
+
+                    </div><!--/.col-->
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="single-package-item">
+                            <img src="{{ asset('assets/images/packages/endwalker.jpg') }}" alt="package-place">
+                            <div class="single-package-item-txt">
+                                <h3>Endwalker</h3>
+                                <div class="packages-para">
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 2 Donjons
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 0 Défis
+											</span>
+                                    </p>
+                                    <p>
+											<span>
+												<i class="fa fa-angle-right"></i> 4 Raids
+											</span>
+                                    </p>
+                                </div><!--/.packages-para-->
+
+                                <div class="about-btn">
+                                    <a href="{{ path('ew')}}">
+                                        <button  class="about-view packages-btn">
+                                            Voir
+                                        </button>
+                                    </a>
+                                </div><!--/.about-btn-->
+                            </div><!--/.single-package-item-txt-->
+                        </div><!--/.single-package-item-->
+
+                    </div><!--/.col-->
+
+
+                </div><!--/.row-->
+            </div><!--/.packages-content-->
+        </div><!--/.container-->
+
+    </section><!--/.packages-->
+    <!--packages end-->
+
+{% endblock %}
+

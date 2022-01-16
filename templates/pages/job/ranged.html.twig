@@ -1,0 +1,39 @@
+{% extends "pages/jobs.html.twig" %}
+{% block title %}Les DPS à distance physique {% endblock title %}
+
+{% block jobs %}
+    <div class="disapear col-md-10 ">
+        <div class="single-package-item jobs-height white-package jobs-items">
+
+            <div class="col-md-4">
+                <div class="jobs-package">
+                    Barde
+                    <a href="{{ path('job', {id:14})}}">
+                        <img src="{{ asset('assets/images/jobs/bard.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-4">
+                <div class="jobs-package">
+                    Machinis.
+                    <a href="{{ path('job', {id:15})}}">
+                        <img src="{{ asset('assets/images/jobs/machinist.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+
+            <div class="col-md-4">
+                <div class="jobs-package">
+                    Danseur
+                    <a href="{{ path('job', {id:16})}}">
+                        <img src="{{ asset('assets/images/jobs/dancer.png') }}"/>
+                    </a>
+                </div><!-- /.filtr-item -->
+            </div><!-- /.col -->
+
+        </div>
+    </div>
+{% endblock jobs %}

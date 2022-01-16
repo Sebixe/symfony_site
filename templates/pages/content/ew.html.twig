@@ -1,0 +1,30 @@
+{% extends "pages/content.html.twig" %}
+{% block title %}Endwalker{% endblock title %}
+
+{% block extension %}
+
+    <div class="research">
+        {% set searchForm = getSearchForm() %}
+        {{ form_start(searchForm) }}
+        {{ form_widget(searchForm.submit, {attr: {'class':'btn-link fa fa-search search float-left' ,'label':'false'}})}}
+        {{ form_widget(searchForm.keyword, {attr: {'type':'text','class':'select ','placeholder':'Recherche....'}})}}
+        {{ form_end(searchForm) }}
+    </div>
+
+
+    <select class="select-extension select" onchange="location = this.value;">
+        <option value="{{ path('arr')}}">A Realm Reborn</option>
+        <option value="{{ path('hw')}}">Heavensward</option>
+        <option value="{{ path('sb')}}">Stormblood</option>
+        <option value="{{ path('shb')}}">Shadowbringer</option>
+        <option selected value="{{ path('ew')}}">Endwalker</option>
+    </select>
+    <img src="{{ asset('assets/images/packages/endwalker.jpg') }}" alt="package-place">
+    </div>
+<form action="{{ path('save') }}" method="POST">
+    <div class="single-package-item-txt min-content-height">
+        <h3> Endwalker     {%  if is_granted('ROLE_USER') -%}
+            <input type="submit" class="disapear float-right button about-view packages-btn center-block"  value="Enregistrer"></input><p class="disapear text-content float-right">Cocher les cases des contenus que vous avez déjà effectués puis cliquez sur ce bouton :</p>
+            {%- endif %}</h3>
+        </br>
+{% endblock extension %}

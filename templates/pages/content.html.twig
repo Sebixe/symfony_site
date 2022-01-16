@@ -1,0 +1,115 @@
+{% extends 'layouts/main.html.twig' %}
+{% block title %}Contenus{% endblock title %}
+
+{% block content %}
+
+        <div class="container">
+            <div class="about-us-content">
+                <div class="gallery-jobs">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6">
+                            <div class="single-package-item white-package">
+                                <div>
+
+                                    {% block extension %}
+                                    {% endblock extension %}
+
+                                    <div class ="col-md-4">
+                                        <div class = "single-package-item white-package">
+                                            <img src="{{ asset('assets/images/packages/Dungeon__Final_Fantasy_XIV.webp') }}" alt="package-place">
+                                            <div class="single-package-item-txt">
+                                                    <h3> Donjons </h3>
+                                                    {% for dungeons in dungeons %}
+                                                            <p>
+                                                                {{ dungeons.level }}.
+                                                                <a href="{{ dungeons.adresse }}"  class="eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                                    {{ dungeons.title }}
+                                                                </a>
+                                                            </p>
+                                                    {% else %}
+                                                        <h3>Pas de donjons enregistré</h3>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        <div class="checkbox-content single-package-item-txt">
+                                            <div class="box"></div>
+                                        {%  if is_granted('ROLE_USER') %}
+                                            {% for sdun in sdun %}
+                                               <br><input type="checkbox" value="1" class="disapear float-right" name="{{ sdun.contentid.id }}" {% if sdun.state == 1 %} checked {% endif %}>
+                                            {% endfor %}
+                                        {% endif %}
+                                        </div>
+
+                                    <div class ="col-md-4">
+                                        <div class = "single-package-item white-package">
+                                            <img src="{{ asset('assets/images/packages/Trial_banner_Final_Fantasy_XIV.webp') }}" alt="package-place">
+                                            <div class="single-package-item-txt">
+                                                <h3> Défis </h3>
+                                                {% for trials in trials %}
+                                                    <p>
+                                                        {{ trials.level }}.
+                                                        <a href="{{ trials.adresse }}"  class="eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                            {{ trials.title }}
+                                                        </a>
+                                                    </p>
+                                                {% else %}
+                                                    <h3>Pas de défis enregistré</h3>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="checkbox-content-2 single-package-item-txt">
+                                        <div class="box"></div>
+                                        {%  if is_granted('ROLE_USER') %}
+                                            {% for stri in stri %}
+                                                <br><input type="checkbox" value="1" class="disapear float-right" name="{{ stri.contentid.id }}" {% if stri.state == 1 %} checked {% endif %}>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class ="col-md-4">
+                                        <div class = "single-package-item white-package ">
+                                            <img src="{{ asset('assets/images/packages/Raid_Final_Fantasy_XIV.webp') }}" alt="package-place">
+                                            <div class="single-package-item-txt">
+                                                <h3> Raids </h3>
+                                                {% for raids in raids %}
+                                                    <p>
+                                                        {{ raids.level }}.
+                                                        <a href="{{ raids.adresse }}"  class="eorzeadb_link" target="_blank" rel="noopener noreferrer">
+                                                            {{ raids.title }}
+                                                        </a>
+                                                    </p>
+                                                {% else %}
+                                                    <h3>Pas de raids enregistré</h3>
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="checkbox-content-3 single-package-item-txt">
+                                        <div class="box"></div>
+                                        {%  if is_granted('ROLE_USER') %}
+                                            {% for srai in srai %}
+                                                <br><input type="checkbox" value="1" class="disapear float-right" name="{{ srai.contentid.id }}" {% if srai.state == 1 %} checked {% endif %}>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-12 col-sm-6">
+                                    <p class="disapear text-content text-italic float-right">Les contenus débloqués lors de la quête d'Épopée ne sont pas indiqués sur ce site</p>
+                                    </div>
+                                </div><!--/.single-package-item-txt-->
+                            </div><!--/.col-->
+                        </div><!--/.row-->
+                    </div>
+                </div>
+            </div><!--/.container-->
+        </div>
+    </section><!--/.packages-->
+</form>
+    <!--packages end-->
+
+{% endblock content %}
