@@ -111,10 +111,10 @@
                                     {% if is_granted('ROLE_SUPER_ADMIN') -%}
 
                                     {% elseif is_granted('ROLE_ADMIN') -%}
-                                        <li class="admin-text"><a href="{{ path('user')}}">Admin : User</a></li>
-                                        <li class="admin-text"><a href="{{ path('viewcontent')}}" >Admin : Content</a></li>
-                                        <li class="admin-text"><a href="{{ path('viewimage')}}" >Admin : Wallpaper</a></li>
-                                        <li class="admin-text"><a href="{{ path('logout')}}">Se déconnecter</a></li>
+                                        <li class="admin-text disapear"><a href="{{ path('user')}}">Admin : User</a></li>
+                                        <li class="admin-text disapear"><a href="{{ path('viewcontent')}}" >Admin : Content</a></li>
+                                        <li class="admin-text disapear"><a href="{{ path('viewimage')}}" >Admin : Wallpaper</a></li>
+                                        <li class="admin-text "><a href="{{ path('logout')}}">Se déconnecter</a></li>
                                     {% elseif is_granted('ROLE_USER') -%}
                                         <li class=""><a href="{{ path('edituser', {id:app.user.id})}}" >Profil</a></li>
                                         <li class="admin-text"><a href="{{ path('logout')}}">Se déconnecter</a></li>
