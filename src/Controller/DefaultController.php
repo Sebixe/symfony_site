@@ -37,6 +37,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Knp\Component\Pager\PaginatorInterface;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -57,11 +58,15 @@ class DefaultController extends AbstractController
         
     /**
      * @Route("/", name="home")
-     * Page principale sur lequel l'utilisateur aura accès à la plupart des outils disponibles, le controller donne accès : 
+     */
+
+    /*
+     *   Page principale sur lequel l'utilisateur aura accès à la plupart des outils disponibles, le controller donne accès :
      * 1. A la modification du niveau depuis le profil utilisateur
      * 2. Une présentation dynamique des contenus disponible en fonction du niveau du joueur
      * 3. L'instanciation des activités journa/hebdo faites par l'utilisateur dans sa session
-     */
+    */
+
     public function home(Request $request, EntityManagerInterface $em, ImagesRepository $imagesRepository, UsercontentRepository $usercontentRepository, ContentRepository $contentRepository): Response
     {
         $user = $this->security->getUser();
@@ -107,6 +112,9 @@ class DefaultController extends AbstractController
 
       /**
      * @Route("/job/{id}", name="job")
+     */
+
+    /*
      * Pages de Job divisées en 5 onglet diffèrent en fonction du rôle du Job utilisé, utilise les informations de la DB pour savoir quoi charger comme page
      */
     public function job(int $id, JobRepository $jobRepository): Response
@@ -136,10 +144,12 @@ class DefaultController extends AbstractController
     
   /**
     * @Route("/changethewall", name="changethewall")
-    * Permet de changer le wallpaper de l'utilisateur en postant l'un de ceux disponible dans la liste et en l'enregistrant
-    * dans la table User sous la colonne "Wallpaper"
     */
-    
+
+    /* Permet de changer le wallpaper de l'utilisateur en postant l'un de ceux disponible dans la liste et en l'enregistrant
+    *  dans la table User sous la colonne "Wallpaper"
+    */
+
     public function changethewall (Request $request, EntityManagerInterface $em): Response
         {
                $user = $this->security->getUser();
@@ -155,7 +165,9 @@ class DefaultController extends AbstractController
     
     /**
     * @Route("/session", name="session")
-    * Sauvegarde des cases cochées des activités dans la session de l'utilisateur
+    */
+
+    /*     * Sauvegarde des cases cochées des activités dans la session de l'utilisateur
     */
     
     public function session (Request $request): Response
@@ -170,9 +182,12 @@ class DefaultController extends AbstractController
     
     /**
     * @Route("/savecontent", name="save")
-    * Bouton qui permet après avoir cochés les cases des contenus effectués de modifier correctement la DB, le bouton est disponible sur la Home Page et sur les diffèrentes pages Content
     */
-    
+
+    /*
+     *  Bouton qui permet après avoir cochés les cases des contenus effectués de modifier correctement la DB, le bouton est disponible sur la Home Page et sur les diffèrentes pages Content
+     */
+
     public function savecontent (Request $request, EntityManagerInterface $em,UsercontentRepository $usercontentRepository): Response
         {
                 $user = $this->security->getUser();
@@ -194,8 +209,11 @@ class DefaultController extends AbstractController
     
     /**
     * @Route("/refreshcontent", name="refresh")
-    * Bouton pour réinitialiser l'usercontent de l'utilisateur, c'est à dire le décocher tous les contenus effectué par l'utilisteur, au cas où cela est nécessaire
     */
+
+    /*
+     *  Bouton pour réinitialiser l'usercontent de l'utilisateur, c'est à dire le décocher tous les contenus effectué par l'utilisteur, au cas où cela est nécessaire
+     */
     
     public function refreshcontent (Request $request, EntityManagerInterface $em,UsercontentRepository $usercontentRepository): Response
         {
@@ -214,8 +232,12 @@ class DefaultController extends AbstractController
  
     /**
     * @Route("/arr", name="arr")
-    * Page qui affiche les contenus en fonction de l'extension, ici A Realm Reborn, et si l'utilisateur est connecté, de donner accès à chaque case cochables.
     */
+
+    /*
+     * Page qui affiche les contenus en fonction de l'extension, ici A Realm Reborn, et si l'utilisateur est connecté, de donner accès à chaque case cochables.
+     */
+
     public function arr (UsercontentRepository $usercontentRepository, Request $request, ContentRepository $contentRepository, EntityManagerInterface $em): Response
      {
         $user = $this->security->getUser();
@@ -237,8 +259,10 @@ class DefaultController extends AbstractController
 
      /**
         * @Route("/hw", name="hw")
-        * Même chose qu'ARR, mais pour l'extension Heavensward
         */
+
+     /* Même chose qu'ARR, mais pour l'extension Heavensward */
+
         public function hw (UsercontentRepository $usercontentRepository, Request $request, ContentRepository $contentRepository, EntityManagerInterface $em): Response
          {
             $user = $this->security->getUser();
@@ -259,8 +283,10 @@ class DefaultController extends AbstractController
 
      /**
         * @Route("/sb", name="sb")
-        * Même chose qu'ARR, mais pour l'extension Stormblood
         */
+
+     /* Même chose qu'ARR, mais pour l'extension Stormblood */
+
         public function sb (UsercontentRepository $usercontentRepository, Request $request, ContentRepository $contentRepository, EntityManagerInterface $em): Response
          {
             $user = $this->security->getUser();
@@ -281,8 +307,10 @@ class DefaultController extends AbstractController
 
      /**
         * @Route("/shb", name="shb")
-        * Même chose qu'ARR, mais pour l'extension Shadowbringer
         */
+
+        /* Même chose qu'ARR, mais pour l'extension Shadowbringer */
+
         public function shb (UsercontentRepository $usercontentRepository, Request $request, ContentRepository $contentRepository, EntityManagerInterface $em): Response
           {
             $user = $this->security->getUser();
@@ -303,8 +331,10 @@ class DefaultController extends AbstractController
 
      /**
         * @Route("/ew", name="ew")
-        * Même chose qu'ARR, mais pour l'extension Endwalker
         */
+
+     /* Même chose qu'ARR, mais pour l'extension Endwalker */
+
         public function ew (UsercontentRepository $usercontentRepository, Request $request, ContentRepository $contentRepository, EntityManagerInterface $em): Response
           {
             $user = $this->security->getUser();
@@ -325,8 +355,10 @@ class DefaultController extends AbstractController
     
      /**
      * @Route("/admin/user", name="user")
-     * Sur la Page d'Admin, permet d'observer tous les utilisateur enregistrés, n'est accessible que pour quelqu'un qui possède en DB l'information [ROLE_ADMIN]
      */
+
+     /* Sur la Page d'Admin, permet d'observer tous les utilisateur enregistrés, n'est accessible que pour quelqu'un qui possède en DB l'information [ROLE_ADMIN] */
+
      public function user(UserRepository $userRepository): Response
      {
          $user = $this->security->getUser();
@@ -336,8 +368,10 @@ class DefaultController extends AbstractController
     
         /**
          * @Route("/admin/viewcontent", name="viewcontent")
-         * Sur la Page d'Admin, permet d'observer tous les contenus enregistrés, d'en ajouter de nouveau et de modifier ceux existants
          */
+
+        /* Sur la Page d'Admin, permet d'observer tous les contenus enregistrés, d'en ajouter de nouveau et de modifier ceux existants */
+
         public function viewcontent(ContentRepository $contentRepository): Response
         {
             $user = $this->security->getUser();
@@ -348,8 +382,9 @@ class DefaultController extends AbstractController
 
      /**
           * @Route("/admin/newcontent", name="createcontent")
-          * Page de création de nouveaux contenus, accessibles depuis le viewcontent
           */
+
+        /* Page de création de nouveaux contenus, accessibles depuis le viewcontent */
 
          public function createContent(Request $request, UserRepository $userRepository, EntityManagerInterface $em): Response
          {
@@ -382,8 +417,10 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/admin/editcontent/{id<\d+>}", name="editcontent")
-     * Page pour éditer le contenu en fonction de l'id sélectionnée
      */
+
+    /* Page pour éditer le contenu en fonction de l'id sélectionnée */
+
     public function editContent(int $id, Request $request, ContentRepository $contentRepository, EntityManagerInterface $em): Response
     {
         $user = $this->security->getUser();
@@ -401,8 +438,10 @@ class DefaultController extends AbstractController
     
      /**
       * @Route("/admin/viewimage", name="viewimage")
-      * Sur la Page d'Admin, permet d'observer les images ajoutées
       */
+
+     /* Sur la Page d'Admin, permet d'observer les images ajoutées */
+
         public function viewimage(ImagesRepository $imagesRepository): Response
         {
             $user = $this->security->getUser();
@@ -414,8 +453,9 @@ class DefaultController extends AbstractController
 
      /**
           * @Route("/admin/newimage", name="createimage")
-          * Page pour ajouter de nouvelles images
           */
+
+     /* Page pour ajouter de nouvelles images */
 
          public function createimage(Request $request, EntityManagerInterface $em): Response
          {
@@ -464,8 +504,9 @@ class DefaultController extends AbstractController
 
     /**
     * @Route("/admin/deleteimage/{id<\d+>}", name="deleteimage")
-    * Suppression de l'image dans la DB
     */
+
+    /* Suppression de l'image dans la DB */
     
     public function deleteimage(int $id, Request $request, ImagesRepository $imagesRepository, EntityManagerInterface $em): Response
         {
@@ -482,18 +523,27 @@ class DefaultController extends AbstractController
     
      /**
      * @Route("/search", name="search")
-     * Page de recherche, utilisant la recherche avec les deux filtres Extension et Types
      */
-    public function search(Request $request, ContentRepository $contentRepository) {
-        
+
+    /* Page de recherche, utilisant la recherche avec les deux filtres Extension et Types */
+
+    public function search(Request $request, ContentRepository $contentRepository, PaginatorInterface $paginator) {
+
         $user = $this->security->getUser();
         $search = new Search();
         $form = $this->createForm(SearchCompleteType::class, $search);
         $form->handleRequest($request);
+
         $result = [];
-        if ($form->isSubmitted() && $form->isValid()) {
-            $result = $contentRepository->findBySearch($search);
-        }
+        $result = $contentRepository->findBySearch($search);
+
+        /* Création de la pagination pour l'affichage des résultats, 10 résultats par page */
+        $result= $paginator->paginate(
+                $result,
+                $request->query->getInt('page',1),
+                10
+            );
+
         return $this->render('pages/search.html.twig', ['searchCompleteForm' => $form->createView(),'contents' => $result, 'user'=>$user]);
     }
     
