@@ -14,6 +14,7 @@ class SearchType extends AbstractType
         $builder
             ->add('keyword',null, [
                 'empty_data' => '',
+                    'data'          => $options['pagination'],
             ])
             ->add('submit', SubmitType::class, ['label' => false])
         ;
@@ -25,7 +26,7 @@ class SearchType extends AbstractType
             'method' => 'GET',
             'csrf_protection'=> false, 
             'data_class' => Search::class,
-
+            'pagination'    => null
         ]);
     }
     
