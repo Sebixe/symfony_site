@@ -372,10 +372,17 @@ class DefaultController extends AbstractController
 
         /* Sur la Page d'Admin, permet d'observer tous les contenus enregistrés, d'en ajouter de nouveau et de modifier ceux existants */
 
-        public function viewcontent(ContentRepository $contentRepository): Response
+        public function viewcontent( Request $request, ContentRepository $contentRepository, PaginatorInterface $paginator ): Response
         {
             $user = $this->security->getUser();
             $contents = $contentRepository->findAll();
+
+            $contents= $paginator->paginate(
+                    $contents,
+                    $request->query->getInt('page',1),
+                    25
+            );
+
             return $this->render('pages/admin/view-content.html.twig', ['contents' => $contents, 'user' => $user]);
         }
 
