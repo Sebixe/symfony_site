@@ -26,7 +26,8 @@ class SearchType extends AbstractType
             'method' => 'GET',
             'csrf_protection'=> false, 
             'data_class' => Search::class,
-            'pagination'    => null
+            'pagination'    => null,
+            'allow_extra_fields' => true
         ]);
     }
     
